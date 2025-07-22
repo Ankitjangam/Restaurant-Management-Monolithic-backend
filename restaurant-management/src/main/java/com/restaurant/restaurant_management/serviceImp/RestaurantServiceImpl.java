@@ -10,12 +10,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service implementation for managing restaurant operations.
+ * Provides methods to create and retrieve restaurant details.
+ */
+
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
+
+    /**
+     * Creates a new restaurant based on the provided DTO.
+     *
+     * @param dto the data transfer object containing restaurant details
+     * @return the created restaurant as a response DTO
+     */
     @Override
     public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO dto) {
         Restaurant restaurant = Restaurant.builder()
@@ -29,6 +41,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         return new RestaurantResponseDTO(saved.getId(), saved.getName(), saved.getAddress(), saved.getPhone());
     }
 
+
+    /**
+     * Retrieves a restaurant by its ID.
+     *
+     * @return the restaurant as a response DTO
+     */
     @Override
     public List<RestaurantResponseDTO> getAllRestaurants() {
         return restaurantRepository.findAll().stream()

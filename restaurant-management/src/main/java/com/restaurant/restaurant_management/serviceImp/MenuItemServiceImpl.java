@@ -25,6 +25,14 @@ public class MenuItemServiceImpl implements MenuItemService {
     private final CategoryRepository categoryRepository;
     private final RestaurantRepository restaurantRepository;
 
+    /**
+     * Constructor for MenuItemServiceImpl.
+     *
+     * @param menuItemRepository   repository for menu items
+     * @param categoryRepository   repository for categories
+     * @param restaurantRepository repository for restaurants
+     */
+
     public MenuItemServiceImpl(MenuItemRepository menuItemRepository, CategoryRepository categoryRepository, RestaurantRepository restaurantRepository) {
         this.menuItemRepository = menuItemRepository;
         this.categoryRepository = categoryRepository;
@@ -50,6 +58,16 @@ public class MenuItemServiceImpl implements MenuItemService {
         return getMenuItemResponseDTO(dto, category, restaurant, menuItem);
     }
 
+
+    /**
+     * Helper method to set properties on a MenuItem and save it.
+     *
+     * @param dto        DTO containing menu item data
+     * @param category   Category to associate with the menu item
+     * @param restaurant Restaurant to associate with the menu item
+     * @param menuItem   MenuItem entity to update
+     * @return MenuItemResponseDTO representing the saved menu item
+     */
     private MenuItemResponseDTO getMenuItemResponseDTO(MenuItemRequestDTO dto, Category category, Restaurant restaurant, MenuItem menuItem) {
         menuItem.setName(dto.getName());
         menuItem.setDescription(dto.getDescription());

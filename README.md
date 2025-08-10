@@ -23,3 +23,24 @@ A complete backend system built using **Java** and **Spring Boot** to manage res
 ```bash
 git clone https://github.com/Ankitjangam/Restaurant--Management-Monolithic-backend
 cd Restaurant--Management-Monolithic-backend
+
+
+
+
+
+### 🔧 Bug Fix Showcase
+
+Video:https://youtu.be/rFOISEp9CZo
+
+Issue:
+During development, I discovered that password encryption was returning `null` when registering a user.  
+
+**Fix:**  
+- Investigated BCryptPasswordEncoder configuration in Spring Boot  
+- Identified incorrect injection setup  
+- Corrected the bean configuration and re-tested
+
+**Skills Demonstrated:**  
+- Debugging in Java Spring Boot  
+- BCrypt password encryption setup  
+- Secure coding best practices

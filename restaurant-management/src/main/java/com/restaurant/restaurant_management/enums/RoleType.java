@@ -5,7 +5,10 @@ package com.restaurant.restaurant_management.enums;
  * These roles are used for role-based access control and permissions management.
  */
 public enum RoleType {
+
     ROLE_ADMIN,
+
     ROLE_STAFF,
-    ROLE_CUSTOMER
+
+    ROLE_CUSTOMER;
 }

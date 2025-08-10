@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for managing restaurant tables.
+ * REST controller for managing restaurant tables.
+ * Provides endpoints for creating, retrieving, updating, and deleting tables.
  */
+
 @RestController
 @RequestMapping("/tables")
 @RequiredArgsConstructor
@@ -22,12 +24,12 @@ public class RestaurantTableController {
     private final RestaurantTableService tableService;
 
     /**
-     * Add a new table.
-     * Access: ADMIN only (consider adding @PreAuthorize)
+     * Create a new restaurant table.
      *
-     * @param dto table request data
-     * @return saved table entity
+     * @param dto Table request data
+     * @return Created RestaurantTable
      */
+
     @PostMapping
     public ResponseEntity<RestaurantTable> addTable(@RequestBody TableRequestDTO dto) {
         RestaurantTable savedTable = tableService.createTable(dto);
@@ -35,33 +37,33 @@ public class RestaurantTableController {
     }
 
     /**
-     * Get table details by id.
+     * Get all restaurant tables.
      *
-     * @param id table id
-     * @return table details DTO
+     * @return List of all RestaurantTableDto
      */
+
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantTableDto> getTable(@PathVariable Long id) {
         return ResponseEntity.ok(tableService.getTable(id));
     }
 
     /**
-     * Update table details.
+     * Get all restaurant tables.
      *
-     * @param id  table id
-     * @param dto updated table data
-     * @return updated table details DTO
+     * @return List of all RestaurantTableDto
      */
+
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantTableDto> updateTable(@PathVariable Long id, @RequestBody RestaurantTableDto dto) {
         return ResponseEntity.ok(tableService.updateTable(id, dto));
     }
 
+
     /**
-     * Delete a table by id.
+     * Delete a restaurant table by ID.
      *
-     * @param id table id
-     * @return no content response
+     * @param id Table ID to delete
+     * @return ResponseEntity with no content
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTable(@PathVariable Long id) {

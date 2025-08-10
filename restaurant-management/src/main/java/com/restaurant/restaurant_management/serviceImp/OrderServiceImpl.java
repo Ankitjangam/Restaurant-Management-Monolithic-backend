@@ -64,6 +64,15 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    /**
+     * Creates an OrderItem with inventory check.
+     * Throws an exception if the inventory is insufficient.
+     *
+     * @param itemDTO the order item details
+     * @param order   the parent order
+     * @return the created OrderItem
+     */
+
     private OrderItem createOrderItemWithInventoryCheck(PlaceOrderRequest.OrderItemDTO itemDTO, Order order) {
         MenuItem menuItem = menuItemRepository.findById(itemDTO.getMenuItemId())
                 .orElseThrow(() -> new ResourceNotFoundException("Menu item not found with id: " + itemDTO.getMenuItemId()));
@@ -86,12 +95,26 @@ public class OrderServiceImpl implements OrderService {
         return item;
     }
 
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param orderId the ID of the order
+     * @return OrderResponse containing order details
+     */
+
+
     @Override
     public OrderResponse getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + orderId));
         return toResponse(order);
     }
+
+    /**
+     * Retrieves all orders.
+     *
+     * @return List of OrderResponse containing all orders
+     */
 
     @Override
     public List<OrderResponse> getAllOrders() {
@@ -100,6 +123,13 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves orders by their status.
+     *
+     * @param status the status of the orders to retrieve
+     * @return List of OrderResponse containing orders with the specified status
+     */
+
     @Override
     public List<OrderResponse> getOrdersByStatus(String status) {
         OrderStatus orderStatus = parseOrderStatus(status);
@@ -107,6 +137,13 @@ public class OrderServiceImpl implements OrderService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Retrieves all orders for a specific customer.
+     *
+     * @param username the username of the customer
+     * @return List of OrderResponse containing orders for the specified customer
+     */
 
     @Override
     public List<OrderResponse> getOrdersForCustomer(String username) {
@@ -117,6 +154,13 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the status of an order.
+     *
+     * @param orderId the ID of the order to update
+     * @param status  the new status to set
+     */
+
     @Override
     public void updateOrderStatus(Long orderId, String status) {
         Order order = orderRepository.findById(orderId)
@@ -124,6 +168,13 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(parseOrderStatus(status));
         orderRepository.save(order);
     }
+
+    /**
+     * Cancels an order.
+     *
+     * @param orderId  the ID of the order to cancel
+     * @param username the username of the user requesting the cancellation
+     */
 
     @Override
     @Transactional
@@ -140,6 +191,17 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
     }
+
+    /**
+     * Filters orders based on user ID, username, date range, and status.
+     *
+     * @param userId    optional user ID to filter by
+     * @param username  optional username to filter by
+     * @param startDate optional start date for filtering
+     * @param endDate   optional end date for filtering
+     * @param status    optional order status to filter by
+     * @return List of OrderResponse containing filtered orders
+     */
 
     @Override
     public List<OrderResponse> filterOrders(Long userId, String username, LocalDate startDate, LocalDate endDate, String status) {
@@ -165,6 +227,18 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * Retrieves orders filtered by username, status, and date range.
+     * If a parameter is null, that filter is skipped.
+     *
+     * @param username  optional username to filter by
+     * @param status    optional order status to filter by
+     * @param startDate optional start date for filtering
+     * @param endDate   optional end date for filtering
+     * @return List of OrderResponse containing filtered orders
+     */
+
     @Override
     public List<OrderResponse> getFilteredOrders(String username, String status, String startDate, String endDate) {
         LocalDateTime start = startDate != null ? LocalDateTime.parse(startDate) : LocalDateTime.MIN;
@@ -187,6 +261,14 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+
+    /**
+     * Parses the order status from a string.
+     * Throws an exception if the status is invalid.
+     *
+     * @param status the status string to parse
+     * @return the corresponding OrderStatus enum
+     */
     private OrderStatus parseOrderStatus(String status) {
         try {
             return OrderStatus.valueOf(status.toUpperCase());
@@ -195,6 +277,13 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    /**
+     * Converts an Order entity to an OrderResponse DTO.
+     *
+     * @param order the Order entity to convert
+     * @return OrderResponse containing order details
+     */
     private OrderResponse toResponse(Order order) {
         return new OrderResponse(order.getId(), order.getOrderDate(), order.getStatus().name(), order.getTotalAmount());
     }

@@ -3,7 +3,7 @@ package com.restaurant.restaurant_management.controller;
 import com.restaurant.restaurant_management.dto.UserRegistrationDto;
 import com.restaurant.restaurant_management.securityConfig.CustomUserDetailsService;
 import com.restaurant.restaurant_management.securityConfig.JwtUtil;
-import com.restaurant.restaurant_management.serviceImp.CategoryServiceImp;
+import com.restaurant.restaurant_management.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    // User service for registration logic
-    private final CategoryServiceImp.UserService userService;
+    //     User service for registration logic
+    private final UserService userService;
 
     // AuthenticationManager to authenticate login credentials
     private final AuthenticationManager authenticationManager;

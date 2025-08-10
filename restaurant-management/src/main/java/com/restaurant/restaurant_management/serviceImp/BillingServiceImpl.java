@@ -111,11 +111,13 @@ public class BillingServiceImpl implements BillingService {
         LocalDateTime start = null;
         LocalDateTime end = null;
 
+
         // Parse and convert startDate to start of the day if provided
         if (startDate != null && !startDate.isEmpty()) {
             LocalDate startLocalDate = LocalDate.parse(startDate);
             start = startLocalDate.atStartOfDay();
         }
+
 
         // Parse and convert endDate to end of the day if provided
         if (endDate != null && !endDate.isEmpty()) {

@@ -8,6 +8,11 @@ import com.restaurant.restaurant_management.service.RestaurantTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for managing restaurant tables.
+ * Provides methods to create, retrieve, update, and delete restaurant tables.
+ */
+
 @Service
 @RequiredArgsConstructor
 public class RestaurantTableServiceImpl implements RestaurantTableService {
@@ -23,10 +28,10 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     public RestaurantTable createTable(TableRequestDTO dto) {
         RestaurantTable table = RestaurantTable.builder()
-            .tableNumber(dto.getTableNumber())  // Table number stored as String
-            .capacity(dto.getCapacity())
-            .available(true)  // New table is available by default
-            .build();
+                .tableNumber(dto.getTableNumber())  // Table number stored as String
+                .capacity(dto.getCapacity())
+                .available(true)  // New table is available by default
+                .build();
         return tableRepository.save(table);
     }
 
@@ -40,7 +45,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     public RestaurantTableDto getTable(Long id) {
         RestaurantTable table = tableRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Table not found"));
+                .orElseThrow(() -> new RuntimeException("Table not found"));
         return convertToDto(table);
     }
 
@@ -55,7 +60,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     public RestaurantTableDto updateTable(Long id, RestaurantTableDto dto) {
         RestaurantTable table = tableRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Table not found"));
+                .orElseThrow(() -> new RuntimeException("Table not found"));
 
         table.setTableNumber(String.valueOf(dto.getTableNumber()));  // Ensure consistent type
         table.setCapacity(dto.getCapacity());
@@ -74,7 +79,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     public void deleteTable(Long id) {
         RestaurantTable table = tableRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Table not found"));
+                .orElseThrow(() -> new RuntimeException("Table not found"));
         tableRepository.delete(table);
     }
 

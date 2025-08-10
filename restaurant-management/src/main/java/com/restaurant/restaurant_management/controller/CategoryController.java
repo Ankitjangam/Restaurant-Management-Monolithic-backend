@@ -12,12 +12,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing restaurant categories.
+ * Provides endpoints for creating, retrieving, updating, and deleting categories.
+ */
+// Access control is enforced using Spring Security annotations.
+// Only users with ADMIN or STAFF roles can create or update categories.
+
+
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
+
     private final CategoryService categoryService;
+
+    /**
+     * Create a new category.
+     * Only accessible by users with ADMIN or STAFF roles.
+     *
+     * @param dto the category data to create
+     * @return ResponseEntity with created CategoryResponseDTO
+     */
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PostMapping
@@ -25,6 +42,7 @@ public class CategoryController {
         CategoryResponseDTO created = categoryService.createCategory(dto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
+
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
@@ -45,7 +63,7 @@ public class CategoryController {
         return ResponseEntity.ok(updated);
     }
 
-   
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);

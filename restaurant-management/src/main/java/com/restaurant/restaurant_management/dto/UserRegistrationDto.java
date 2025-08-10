@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegistrationDto {
 
+
     /**
      * Unique username for the user.
      */

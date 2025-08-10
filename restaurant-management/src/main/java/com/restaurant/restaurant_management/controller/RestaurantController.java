@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing restaurants.
+ * Provides endpoints to create and retrieve restaurant details.
+ */
+//      * @return list of BillingResponseDTOs matching the filters
+//      */
+
 @RestController
 @RequestMapping("/restaurants")
 @RequiredArgsConstructor
@@ -17,11 +24,25 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
+    /**
+     * Create a new restaurant.
+     * Access: ADMIN only (consider adding @PreAuthorize)
+     *
+     * @param dto Restaurant request data
+     * @return Created restaurant details
+     */
+
     @PostMapping
     public ResponseEntity<RestaurantResponseDTO> createRestaurant(@RequestBody RestaurantRequestDTO dto) {
         return new ResponseEntity<>(restaurantService.createRestaurant(dto), HttpStatus.CREATED);
     }
 
+
+    /**
+     * Get all restaurants.
+     *
+     * @return List of all restaurants
+     */
     @GetMapping
     public ResponseEntity<List<RestaurantResponseDTO>> getAllRestaurants() {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());

@@ -23,14 +23,15 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+///  must be final all fields
 public class UserServiceImp implements UserService {
 
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Registers a new user based on the provided registration data transfer object.
@@ -64,7 +65,7 @@ public class UserServiceImp implements UserService {
             Role staffRole = roleRepository.findByName(RoleType.ROLE_STAFF)
                     .orElseThrow(() -> new RuntimeException("STAFF role not found"));
             assignedRoles.add(staffRole);
-        } else {
+        } else if (email.endsWith("@gmail.com")) {
             // Assign CUSTOMER role by default
             Role customerRole = roleRepository.findByName(RoleType.ROLE_CUSTOMER)
                     .orElseThrow(() -> new RuntimeException("CUSTOMER role not found"));
